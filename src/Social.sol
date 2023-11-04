@@ -19,6 +19,19 @@ contract Social {
         string essay;
         uint timestamp;
     }
+    struct RabbiTube {
+       
+        string account;
+        string title;
+        string description;
+        string videoUrl;
+        string thumbnail;
+        uint timestamp;
+
+
+    }
+
+    RabbiTube[] public tubes;
 
 
     Structher[] public datas;
@@ -35,6 +48,27 @@ contract Social {
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can call this function");
         _;
+    }
+
+
+    //RabbitTubes
+
+
+    function addTube(
+        
+        string calldata  account,
+        string calldata  title,
+        string calldata  description,
+        string calldata  videoUrl,
+        string calldata  thumbnail
+       
+    ) public {
+        
+        tubes.push(RabbiTube(account , title,description,videoUrl,thumbnail,block.timestamp));
+    }
+
+    function getTube() public view returns (RabbiTube[] memory) {
+        return tubes;
     }
 
     //Furry Feeds
@@ -63,14 +97,9 @@ contract Social {
         emit EtherSent(user, name, msg.value, block.timestamp);
     }
 
-   function getTransactionDetails(uint256 index) external view returns (address, address, string memory, uint256, uint256) {
-    require(index < transactions.length, "Transaction index out of bounds");
-    Transaction memory txData = transactions[index];
-    return (txData.from, txData.to, txData.name, txData.amount, txData.timestamp);
+  
 }
 
 
-    function getTransactionCount() external view returns (uint256) {
-        return transactions.length;
-    }
-}
+    
+
